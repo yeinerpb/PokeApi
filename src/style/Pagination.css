@@ -1,0 +1,63 @@
+/* Pagination.css */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    list-style: none;
+}
+
+.pagination a {
+    color: #2D4596;
+    text-decoration: none;
+    margin: .4rem;
+    padding: .5rem;
+    cursor: pointer;
+    background-color: #FEC20C;
+    border-radius: 10px;
+    transition: all 0.3s;
+    font-weight: bold;
+    border: 2px solid #2D4596;
+}
+
+.pagination a.active {
+    color: white;
+    background-color: blue;
+}
+
+@media only screen and (max-width: 768px) {
+    .pagination {
+        padding: 1rem;
+    }
+
+    .pagination a {
+        padding: 5px;
+        font-size: .5rem;
+        margin: 2px;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    .pagination {
+        padding: 1rem;
+    }
+
+    .pagination a {
+        padding: 3px;
+        font-size: .5rem;
+        margin: 2px;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    .pagination {
+        padding: .2rem;
+        margin: 2px;
+    }
+
+    .pagination a {
+        padding: 2px;
+        font-size: .3rem;
+        margin: 1px;
+    }
+}
