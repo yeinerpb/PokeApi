@@ -14,7 +14,7 @@ const Pokedex = () => {
     const [pokemonName, setPokemonName] = useState("");
     const [pokemonType, setPokemonType] = useState([]);
     const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(12);
+    const [perPage] = useState(12);
     const [pageCount, setPageCount] = useState(0);
     const [currentType, setCurrentType] = useState("all"); 
 
@@ -47,7 +47,7 @@ const Pokedex = () => {
                 name: pokemon.pokemon.name,
                 url: pokemon.pokemon.url,
             }));
-            setPokedex(pokemons.slice((page - 1) * perPage, page * perPage)); // usar slice para obtener solo los pokemons de la página actual
+            setPokedex(pokemons.slice((page - 1) * perPage, page * perPage)); 
             setPageCount(Math.ceil(pokemons.length / perPage));
         });
     };
