@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import PokedexCard from "./PokedexCard";
@@ -16,7 +16,21 @@ const Pokedex = () => {
     const [page, setPage] = useState(1);
     const [perPage] = useState(12);
     const [pageCount, setPageCount] = useState(0);
-    const [currentType, setCurrentType] = useState("all"); 
+    const [currentType, setCurrentType] = useState("all");
+
+    const fetchPokemonsByType = useCallback(
+        (typeUrl, page) => {
+            axios.get(typeUrl).then((res) => {
+                const pokemons = res.data.pokemon.map((pokemon) => ({
+                    name: pokemon.pokemon.name,
+                    url: pokemon.pokemon.url,
+                }));
+                setPokedex(pokemons.slice((page - 1) * perPage, page * perPage));
+                setPageCount(Math.ceil(pokemons.length / perPage));
+            });
+        },
+        [perPage]
+    );
 
     useEffect(() => {
         if (currentType === "all") {
@@ -29,7 +43,7 @@ const Pokedex = () => {
             .get("https://pokeapi.co/api/v2/type/")
             .then((res) => setPokemonType(res.data.results))
             .catch((error) => console.log(error));
-    }, [page, perPage, currentType]);
+    }, [page, perPage, currentType, fetchPokemonsByType]);
 
     const fetchPokedexData = (offset, limit) => {
         axios
@@ -39,17 +53,6 @@ const Pokedex = () => {
                 setPageCount(Math.ceil(res.data.count / limit));
             })
             .catch((error) => console.log(error));
-    };
-
-    const fetchPokemonsByType = (typeUrl, page) => {
-        axios.get(typeUrl).then((res) => {
-            const pokemons = res.data.pokemon.map((pokemon) => ({
-                name: pokemon.pokemon.name,
-                url: pokemon.pokemon.url,
-            }));
-            setPokedex(pokemons.slice((page - 1) * perPage, page * perPage)); 
-            setPageCount(Math.ceil(pokemons.length / perPage));
-        });
     };
 
     const handleChange = (selected) => {
